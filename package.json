@@ -6,8 +6,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest",
-    "test:ci": "jest --ci",
+    "test": "jest --passWithNoTests",
+    "test:ci": "jest --ci --passWithNoTests",
     "postinstall": "husky install"
   },
   "dependencies": {
@@ -37,7 +37,6 @@
     "eslint-plugin-testing-library": "^5.0.4",
     "husky": "^7.0.4",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^27.4.7",
     "pinst": "^2.1.6",
     "postcss": "^8.4.6",
     "prettier": "^2.5.1",
