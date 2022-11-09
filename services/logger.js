@@ -36,7 +36,7 @@ const getLogger = (fileName = 'application') => {
   });
 
   // if (process.env.NODE_ENV === 'development') {
-    logger.add(fileLogTransport);
+  logger.add(fileLogTransport);
   // }
 
   return logger;
