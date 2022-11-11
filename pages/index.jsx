@@ -1,9 +1,26 @@
 import Head from 'next/head';
-import Image from 'next/image';
-import Link from 'next/link';
+// import Image from 'next/image';
+// import Link from 'next/link';
+import { promises as fs } from 'fs';
+import path from 'path';
 import styles from '../styles/Home.module.css';
 
-export default function Home() {
+export async function getStaticProps() {
+  const jsonDirectory = path.join(process.cwd(), 'logs');
+  // Read the json data file data.json
+  const fileContents = await fs.readFile(
+    `${jsonDirectory}/application-2022-11-11.log`,
+    'utf8'
+  );
+  // Return the content of the data file in json format
+  return {
+    props: {
+      fileContents,
+    },
+  };
+}
+
+export default function Home({ fileContents }) {
   return (
     <div className={styles.container}>
       <Head>
@@ -13,71 +30,11 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <h2>Version 0.5.0</h2>
-
-        <h2>{process.env.NEXT_PUBLIC_APP_NAME}</h2>
-
-        <div className="flex gap-10 pt-4 text-blue-500">
-          <Link href="/quote">
-            <a>Quote of the day</a>
-          </Link>
-          <Link href="/counter">
-            <a>Counter</a>
-          </Link>
-        </div>
-
-        <p className={`${styles.description} font-quinto text-fresh`}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
+        <h1 className={styles.title}>application-2022-11-11 log</h1>
+        <pre>{fileContents}</pre>
       </main>
 
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
+      <footer className={styles.footer} />
     </div>
   );
 }
