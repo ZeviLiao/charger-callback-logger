@@ -6,6 +6,14 @@ import path from 'path';
 import styles from '../styles/Home.module.css';
 
 export async function getServerSideProps(context) {
+  if (!context.query?.date) {
+    return {
+      props: {
+        fileContents: '...',
+        date: 'no ',
+      },
+    };
+  }
   const jsonDirectory = path.join(process.cwd(), 'logs');
   // Read the json data file data.json
   const fileContents = await fs.readFile(
@@ -32,7 +40,16 @@ export default function Home({ fileContents, date }) {
 
       <main className={styles.main}>
         <h1 className={styles.title}>{date} log</h1>
-        <pre>{fileContents}</pre>
+        <pre
+          style={{
+            whiteSpace: 'pre-wrap',
+            padding: 30,
+            backgroundColor: '#eee',
+            border: '1px solid lightgray',
+          }}
+        >
+          {fileContents}
+        </pre>
       </main>
 
       <footer className={styles.footer} />
