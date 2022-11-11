@@ -5,22 +5,23 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import styles from '../styles/Home.module.css';
 
-export async function getStaticProps() {
+export async function getServerSideProps(context) {
   const jsonDirectory = path.join(process.cwd(), 'logs');
   // Read the json data file data.json
   const fileContents = await fs.readFile(
-    `${jsonDirectory}/application-2022-11-11.log`,
+    `${jsonDirectory}/application-${context.query.date}.log`,
     'utf8'
   );
   // Return the content of the data file in json format
   return {
     props: {
       fileContents,
+      date: context.query.date,
     },
   };
 }
 
-export default function Home({ fileContents }) {
+export default function Home({ fileContents, date }) {
   return (
     <div className={styles.container}>
       <Head>
@@ -30,7 +31,7 @@ export default function Home({ fileContents }) {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>application-2022-11-11 log</h1>
+        <h1 className={styles.title}>{date} log</h1>
         <pre>{fileContents}</pre>
       </main>
 
